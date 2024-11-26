@@ -3,6 +3,7 @@ package tasklist.c14220154.tasklist_c14220154
 import android.content.DialogInterface
 import java.util.concurrent.TimeUnit
 import android.content.Intent
+import android.content.SharedPreferences
 import android.os.Bundle
 import android.widget.Button
 import android.widget.Toast
@@ -47,12 +48,17 @@ class MainActivity : AppCompatActivity() {
 //
 //        }
 
+        sp = getSharedPreferences("MySharedPref", MODE_PRIVATE)
+        val editor = sp.edit()
+        editor.putString("key", "value")
+        editor.apply()
+
+
 
         fun tambahData() {
             _listTask.clear()
             for (position in _judul.indices) {
                 val task = task(
-                    _image[position],
                     _judul[position],
                     _deskripsi[position],
                     _date[position],
@@ -67,12 +73,7 @@ class MainActivity : AppCompatActivity() {
             _rvTask.layoutManager = LinearLayoutManager(this)
             _rvTask.adapter = _taskAdapter
 
-            _taskAdapter.setOnItemClickCallback(object : task_recycler.OnItemClickCallback {
-                override fun onItemClicked(data: task) {
-                    // Aksi untuk tombol Edit atau Status
-                    Toast.makeText(this@MainActivity, "Task: ${data.judul}", Toast.LENGTH_SHORT)
-                        .show()
-                }
+            _taskAdapter.setOnItemClickCallback(object: task_recycler.OnItemClickCallback {
 
                 override fun delData(pos: Int) {
                     if (pos >= 0 && pos < _listTask.size) {
@@ -108,7 +109,6 @@ class MainActivity : AppCompatActivity() {
                         intent.putExtra("deskripsi", _listTask[pos].deskripsi)
                         intent.putExtra("date", _listTask[pos].date)
                         intent.putExtra("time", _listTask[pos].time)
-                        intent.putExtra("image", _listTask[pos].image)
                         startActivityForResult(intent, EDIT_TASK)  // Gunakan request code berbeda
                     } else {
                         Toast.makeText(this@MainActivity, "Invalid position", Toast.LENGTH_SHORT)
@@ -134,8 +134,8 @@ class MainActivity : AppCompatActivity() {
             })
         }
 
+
         _judul = mutableListOf()
-        _image = mutableListOf()
         _deskripsi = mutableListOf()
         _date = mutableListOf()
         _time = mutableListOf()
@@ -143,6 +143,12 @@ class MainActivity : AppCompatActivity() {
 //      SiapakanData()
         tambahData()
         tampilkanData()
+        displayFavoriteTask()
+    }
+
+    private fun displayFavoriteTask() {
+        val favoriteTask = sp.getString("judul", "No favorite task")
+        Toast.makeText(this, "Favorite Task: $favoriteTask", Toast.LENGTH_SHORT).show()
     }
 
     companion object {
@@ -157,23 +163,20 @@ class MainActivity : AppCompatActivity() {
             val judul = data?.getStringExtra("judul")
             val deskripsi = data?.getStringExtra("deskripsi")
             val date = data?.getStringExtra("date")
-            val image = data?.getIntExtra("image", R.drawable.error)?.toString() ?: "error"
 
             if (judul != null && deskripsi != null && date != null) {
-                addTask(image, judul, deskripsi, date)
+                addTask(judul, deskripsi, date)
             }
         } else if (requestCode == EDIT_TASK && resultCode == RESULT_OK) {
             val position = data?.getIntExtra("position", -1)
             val judul = data?.getStringExtra("judul")
             val deskripsi = data?.getStringExtra("deskripsi")
             val date = data?.getStringExtra("date")
-            val image = data?.getIntExtra("image", R.drawable.error)?.toString() ?: "error"
 
             if (position != null && position >= 0 && judul != null && deskripsi != null && date != null) {
                 _listTask[position].judul = judul
                 _listTask[position].deskripsi = deskripsi
                 _listTask[position].date = date
-                _listTask[position].image = image
                 _taskAdapter.notifyItemChanged(position)
             }
         }
@@ -196,20 +199,19 @@ class MainActivity : AppCompatActivity() {
     }
 
 
-    private fun addTask(image: String, judul: String, deskripsi: String, date: String) {
+    private fun addTask(judul: String, deskripsi: String, date: String) {
         // Tambahkan task baru
-        val task = task(image, judul, deskripsi, date, "")
+        val task = task(judul, deskripsi, date, "")
         _listTask.add(task)
 
         // Perbarui adapter
         _taskAdapter.notifyItemInserted(_listTask.size - 1)
     }
 
-
+    lateinit var sp : SharedPreferences
     private var _listTask: ArrayList<task> = arrayListOf()
     private lateinit var _rvTask: RecyclerView
     private lateinit var _taskAdapter: task_recycler
-    private var _image: MutableList<String> = mutableListOf()
     private var _judul: MutableList<String> = mutableListOf()
     private var _deskripsi: MutableList<String> = mutableListOf()
     private var _date: MutableList<String> = mutableListOf()

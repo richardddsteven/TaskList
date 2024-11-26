@@ -19,7 +19,6 @@ class task_recycler(private val listTask: ArrayList<task>) : RecyclerView.Adapte
     private lateinit var onItemclickCallback: OnItemClickCallback
 
     interface OnItemClickCallback {
-        fun onItemClicked(data: task)
         fun delData(pos: Int)
         fun editData(pos: Int)
         fun updateStatus(pos: Int)
@@ -53,11 +52,6 @@ class task_recycler(private val listTask: ArrayList<task>) : RecyclerView.Adapte
         holder._deskripsiTask.text = task.deskripsi
         holder._dateTask.text = task.date
         holder._time.text = task.time
-        val resourceId = holder.itemView.context.resources.getIdentifier(
-            task.image,
-            "drawable",
-            holder.itemView.context.packageName
-        )
 
         if (task.isStatusStarted) {
             holder._btnStatus.text = "End"
@@ -96,7 +90,6 @@ class task_recycler(private val listTask: ArrayList<task>) : RecyclerView.Adapte
             editor.putString("judul", task.judul)
             editor.putString("deskripsi", task.deskripsi)
             editor.putString("date", task.date)
-            editor.putString("image", task.image)
             editor.apply()
             Toast.makeText(holder.itemView.context, "Task Favorited", Toast.LENGTH_SHORT).show()
 
@@ -106,6 +99,7 @@ class task_recycler(private val listTask: ArrayList<task>) : RecyclerView.Adapte
     fun setOnItemClickCallback(onItemClickCallback: OnItemClickCallback) {
         this.onItemclickCallback = onItemClickCallback
     }
+
     private fun startTimer(holder: ListViewHolder, task: task, position: Int) {
         val handler = android.os.Handler()
         val runnable = object : Runnable {
