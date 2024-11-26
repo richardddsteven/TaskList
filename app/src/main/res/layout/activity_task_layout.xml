@@ -1,0 +1,88 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    >
+
+    <ImageView
+        android:id="@+id/imageView2"
+        android:layout_width="402dp"
+        android:layout_height="131dp"
+        android:layout_marginTop="16dp"
+        android:background="@drawable/rounded_border"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.444"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+
+    <TextView
+        android:id="@+id/judulTask"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="32dp"
+        android:text="Judul Task"
+        android:textStyle="bold"
+        app:layout_constraintBottom_toBottomOf="@id/imageView2"
+        app:layout_constraintStart_toStartOf="@+id/imageView2"
+        app:layout_constraintTop_toTopOf="@id/imageView2"
+        app:layout_constraintVertical_bias="0.142" />
+
+    <TextView
+        android:id="@+id/deskripsiTask"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:text="Deskripsi Task"
+        app:layout_constraintStart_toStartOf="@+id/judulTask"
+        app:layout_constraintTop_toBottomOf="@+id/judulTask" />
+
+    <TextView
+        android:id="@+id/dateTask"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="196dp"
+        android:text="dd-mm-yyyy"
+        app:layout_constraintStart_toEndOf="@+id/judulTask"
+        app:layout_constraintTop_toTopOf="@+id/judulTask" />
+
+    <TextView
+        android:id="@+id/timeTask"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:text="hh:mm"
+        app:layout_constraintStart_toStartOf="@+id/dateTask"
+        app:layout_constraintTop_toBottomOf="@+id/dateTask" />
+
+    <Button
+        android:id="@+id/deleteTask"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="36dp"
+        android:text="Delete"
+        app:layout_constraintBottom_toBottomOf="@+id/editTask"
+        app:layout_constraintEnd_toStartOf="@+id/editTask" />
+
+    <Button
+        android:id="@+id/editTask"
+        android:layout_width="88dp"
+        android:layout_height="48dp"
+        android:layout_marginEnd="40dp"
+        android:text="Edit"
+        app:layout_constraintBottom_toBottomOf="@+id/statusTask"
+        app:layout_constraintEnd_toStartOf="@+id/statusTask" />
+
+    <Button
+        android:id="@id/statusTask"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="28dp"
+        android:layout_marginBottom="4dp"
+        android:text="start"
+        app:layout_constraintBottom_toBottomOf="@+id/imageView2"
+        app:layout_constraintEnd_toEndOf="@+id/imageView2" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>
