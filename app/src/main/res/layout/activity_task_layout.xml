@@ -43,7 +43,7 @@
         android:id="@+id/dateTask"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="196dp"
+        android:layout_marginStart="100dp"
         android:text="dd-mm-yyyy"
         app:layout_constraintStart_toEndOf="@+id/judulTask"
         app:layout_constraintTop_toTopOf="@+id/judulTask" />
@@ -56,6 +56,17 @@
         android:text="hh:mm"
         app:layout_constraintStart_toStartOf="@+id/dateTask"
         app:layout_constraintTop_toBottomOf="@+id/dateTask" />
+
+    <Button
+        android:id="@+id/sharedPreference"
+        android:layout_width="66dp"
+        android:layout_height="38dp"
+        android:layout_marginStart="28dp"
+        android:layout_marginTop="8dp"
+        android:text="Fav"
+        android:textSize="10sp"
+        app:layout_constraintStart_toEndOf="@+id/dateTask"
+        app:layout_constraintTop_toTopOf="@+id/dateTask" />
 
     <Button
         android:id="@+id/deleteTask"

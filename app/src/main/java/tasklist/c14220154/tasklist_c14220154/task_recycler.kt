@@ -7,6 +7,7 @@ import android.view.ViewGroup
 import android.widget.Button
 import android.widget.ImageView
 import android.widget.TextView
+import android.widget.Toast
 import androidx.recyclerview.widget.RecyclerView
 import java.text.SimpleDateFormat
 import java.util.Date
@@ -32,6 +33,7 @@ class task_recycler(private val listTask: ArrayList<task>) : RecyclerView.Adapte
         val _btnHapus: Button = itemView.findViewById(R.id.deleteTask)
         val _btnEdit: Button = itemView.findViewById(R.id.editTask)
         val _btnStatus: Button = itemView.findViewById(R.id.statusTask)
+        val _btnFav: Button = itemView.findViewById(R.id.sharedPreference)
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ListViewHolder {
@@ -88,6 +90,17 @@ class task_recycler(private val listTask: ArrayList<task>) : RecyclerView.Adapte
         holder._btnStatus.setOnClickListener {
             onItemclickCallback.updateStatus(position)
         }
+        holder._btnFav.setOnClickListener{
+            val sharedPreference = holder.itemView.context.getSharedPreferences("SHARED_PREF", 0)
+            val editor = sharedPreference.edit()
+            editor.putString("judul", task.judul)
+            editor.putString("deskripsi", task.deskripsi)
+            editor.putString("date", task.date)
+            editor.putString("image", task.image)
+            editor.apply()
+            Toast.makeText(holder.itemView.context, "Task Favorited", Toast.LENGTH_SHORT).show()
+
+        }
     }
 
     fun setOnItemClickCallback(onItemClickCallback: OnItemClickCallback) {
@@ -109,7 +122,6 @@ class task_recycler(private val listTask: ArrayList<task>) : RecyclerView.Adapte
         }
         handler.post(runnable)
     }
-
 
     private fun calculateRemainingTime(date: String): String {
         val dateFormat = SimpleDateFormat("dd/MM/yyyy HH:mm", Locale.getDefault())
